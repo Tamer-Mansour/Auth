@@ -1,4 +1,6 @@
-<div class="blank-layout-container justify-content-center align-items-center bg-light">
+<div
+  class="blank-layout-container justify-content-center align-items-center bg-light"
+>
   <div
     class="position-relative row w-100 h-100 bg-gredient justify-content-center"
   >
@@ -49,9 +51,11 @@
 
           <div class="or-border m-t-30">or sign in with</div>
 
-          <form class="m-t-30"
-                [formGroup]="form"
-                (ngSubmit)="login()"
+          <form
+            class="m-t-30"
+            action=""
+            [formGroup]="form"
+            (ngSubmit)="login()"
           >
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
               >Email</mat-label
@@ -65,14 +69,15 @@
               >Password</mat-label
             >
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput
-              [type]="hide ? 'password' : 'text'"
-              placeholder="Password"
-              formControlName="password"
+              <input
+                matInput
+                [type]="hide ? 'password' : 'text'"
+                placeholder="Password"
+                formControlName="password"
               />
               <mat-icon matPrefix>lock</mat-icon>
               <mat-icon matSuffix (click)="hide = !hide">
-              {{ hide ? "visibility_off" : "visibility" }}
+                {{ hide ? "visibility_off" : "visibility" }}
               </mat-icon>
             </mat-form-field>
 
@@ -84,9 +89,15 @@
                 >Forgot Password ?</a
               >
             </div>
-            <a [routerLink]="['/']" mat-flat-button color="primary" [disabled]="!form.valid" type="submit" class="w-100">
-              Sign In
-            </a>
+            <button
+              color="primary"
+              mat-flat-button
+              type="submit"
+              [disabled]="!form.valid"
+              class="w-100"
+            >
+              Login
+            </button>
             <!-- input -->
           </form>
           <span class="d-block f-w-500 text-center m-t-24"

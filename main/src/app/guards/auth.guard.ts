@@ -11,6 +11,6 @@ export const authGuard: CanActivateFn = (route, state) => {
   matSnackBar.open('You must be logged in to view this page', 'Ok', {
     duration: 3000,
   });
-  inject(Router).navigate(['/login']);
+  inject(Router).navigate(['/authentication/login']);
   return false;
 };

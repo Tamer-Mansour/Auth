@@ -11,7 +11,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
   const useRoles = authService.getRoles();
 
   if (!authService.isLoggedIn()) {
-    router.navigate(['/login']);
+    router.navigate(['/authentication/login']);
     matSnackBar.open('You must login to view this page.', 'Ok', {
       duration: 5000,
     });

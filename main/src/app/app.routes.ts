@@ -18,7 +18,7 @@ export const routes: Routes = [
         path: 'dashboard',
         loadChildren: () =>
           import('./pages/pages.routes').then((m) => m.PagesRoutes),
-        canActivate: [roleGuard],
+        // canActivate: [roleGuard],
       },
       {
         path: 'ui-components',
