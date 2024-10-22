@@ -1,0 +1,123 @@
+﻿﻿# Ignore Visual Studio temporary files, build results, and
+# user-specific files
+*.rsuser
+*.rsuser.bin
+*.suo
+*.user
+*.userosscache
+*.userprefs
+*.psess
+*.vsp
+*_i.c
+*_p.c
+*.ncb
+*.sdf
+*.opensdf
+*.sln.docstates
+
+# Avoid committing bin/ and obj/ folders for any .NET project
+[Bb]in/
+[Oo]bj/
+
+# Ignore build results
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Ignore npm packages
+node_modules/
+
+# Ignore NuGet Packages
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+# Uncomment if necessary
+#*.dll
+#*.exe
+#*.pyc
+#*.pyo
+#*.pdb
+
+# Ignore JetBrains Rider files
+.idea/
+
+# Ignore Rider, ReSharper and similar files
+_ReSharper*/
+*.sln.DotSettings.user
+
+# Avoid committing database files
+*.mdf
+*.ldf
+*.ndf
+
+# Ignore files for local Azure Functions
+.local.settings.json
+
+# Ignore Publish directory
+publish/
+
+# Ignore user-specific files (VS Code, Visual Studio, etc.)
+.vscode/
+.vscode-test/
+.vs/
+
+# Ignore runtime build files
+*.log
+.vscode-test/
+.vs/
+.docker/
+**/coverage/
+*.coverage
+
+# Ignore coverage output
+coverage/
+
+# Ignore auto-generated files from the build process
+*.Generated.cs
+
+# Ignore Entity Framework Migrations
+Migrations/
+
+# Ignore environment variables
+.env
+.env.*
+
+# Ignore application insights configuration
+ApplicationInsights.config
+
+# Ignore static and user-specific files
+**/static/*
+**/content/*
+**/content/static/*
+
+# Ignore Visual Studio Code workspace
+.vscode/
+
+# Ignore Visual Studio Code artifacts
+.history/
+*.code-workspace
+.vscode/
+.vscode-test/
+
+# Ignore Visual Studio files
+.vs/
+*.csproj.user
+*.csproj.DotSettings
+*.sln.DotSettings
+
+# Ignore Visual Studio auto-generated folders
+.vscode/
+.vs/
+.sln.docstates
+*.pidb
+*.aps
+
+# Ignore Visual Studio Solution User Options files
+*.suo
+*.user
+
+# Ignore Visual Studio backup folders
+_backup*/
+.excel_backup/
+ppt_backup/

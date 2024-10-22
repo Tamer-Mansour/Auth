@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\development\\Auth\\server\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\development\\Auth\\server\\server\\Migrations\\20241022080940_second.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\Migrations\\20241022080940_second.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6A0C721-3578-44D9-AF51-96BEFCA097A1}|server\\server.csproj|c:\\development\\auth\\server\\server\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6A0C721-3578-44D9-AF51-96BEFCA097A1}|server\\server.csproj|solutionrelative:server\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\development\\Auth\\server\\server\\Migrations\\20241022080552_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\Migrations\\20241022080552_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20241022080940_second.cs",
+              "DocumentMoniker": "C:\\development\\Auth\\server\\server\\Migrations\\20241022080940_second.cs",
+              "RelativeDocumentMoniker": "server\\Migrations\\20241022080940_second.cs",
+              "ToolTip": "C:\\development\\Auth\\server\\server\\Migrations\\20241022080940_second.cs",
+              "RelativeToolTip": "server\\Migrations\\20241022080940_second.cs",
+              "ViewState": "AQIAACUAAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T08:09:40.292Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "20241022080552_init.cs",
+              "DocumentMoniker": "C:\\development\\Auth\\server\\server\\Migrations\\20241022080552_init.cs",
+              "RelativeDocumentMoniker": "server\\Migrations\\20241022080552_init.cs",
+              "ToolTip": "C:\\development\\Auth\\server\\server\\Migrations\\20241022080552_init.cs",
+              "RelativeToolTip": "server\\Migrations\\20241022080552_init.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T08:05:52.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\development\\Auth\\server\\server\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "server\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\development\\Auth\\server\\server\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "server\\Data\\AppDbContext.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAAAowA4AAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T08:04:44.082Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
