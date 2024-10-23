@@ -106,10 +106,10 @@ public class UserController : ControllerBase
         _ = int
             .TryParse(_configuration.GetSection("JWTSetting")
                 .GetSection("RefreshTokenValidityIn")
-                .Value!, out int RefreshTokenValidityIn);
+                .Value!, out int RefreshTokenValidityInSeconds);
 
         user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiaryTime = DateTime.UtcNow.AddMinutes(RefreshTokenValidityIn);
+        user.RefreshTokenExpiaryTime = DateTime.UtcNow.AddSeconds(RefreshTokenValidityInSeconds);
         await _userManager.UpdateAsync(user);
 
 
@@ -147,9 +147,9 @@ public class UserController : ControllerBase
         _ = int
             .TryParse(_configuration.GetSection("JWTSetting")
                 .GetSection("RefreshTokenValidityIn")
-                .Value!, out int RefreshTokenValidityIn);
+                .Value!, out int RefreshTokenValidityInSeconds);
         user.RefreshToken = newRefreshToken;
-        user.RefreshTokenExpiaryTime = DateTime.UtcNow.AddMinutes(RefreshTokenValidityIn);
+        user.RefreshTokenExpiaryTime = DateTime.UtcNow.AddSeconds(RefreshTokenValidityInSeconds);
 
         await _userManager.UpdateAsync(user);
 
@@ -215,11 +215,14 @@ public class UserController : ControllerBase
         {
             claims.Add(new Claim(ClaimTypes.Role, role));
         }
-
+        _ = int
+            .TryParse(_configuration.GetSection("JWTSetting")
+                .GetSection("expireInSeconds")
+                .Value!, out int expireInSeconds);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddSeconds(1800),
+            Expires = DateTime.UtcNow.AddSeconds(expireInSeconds),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
         };
 
