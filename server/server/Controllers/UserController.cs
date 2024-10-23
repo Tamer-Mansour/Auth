@@ -219,7 +219,7 @@ public class UserController : ControllerBase
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddSeconds(30),
+            Expires = DateTime.UtcNow.AddSeconds(1800),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
         };
 

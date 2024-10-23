@@ -70,18 +70,8 @@ export class AuthService {
   };
 
   logout = (): void => {
-    const currentUrl = this.router.url;
-    console.log('🚀 ~ AuthService ~ currentUrl:', currentUrl);
-    // this.redirectService.setRedirectUrl(currentUrl);
     localStorage.removeItem(this.userKey);
-    // if (this.tokenCheckInterval) {
-    //   this.tokenCheckInterval.unsubscribe();
-    //   this.tokenCheckInterval = null;
-    // }
     this.router.navigate(['/authentication/login']);
-    // this.router.navigate(['/authentication/login'], {
-    //   queryParams: { redirect: currentUrl },
-    // });
   };
 
   logoutWithRedirect = (): void => {
