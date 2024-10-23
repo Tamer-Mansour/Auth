@@ -12,6 +12,7 @@ import { ChangePasswordRequest } from '../interfaces/change-password-request';
 import { RedirectService } from './redirect.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CountdownSnackbarComponent } from '../components/countdown-snackbar/countdown-snackbar.component';
 
 @Injectable({
   providedIn: 'root',
@@ -83,7 +84,7 @@ export class AuthService {
     // });
   };
 
-  logoutWithRedirect = (): void =>{
+  logoutWithRedirect = (): void => {
     const currentUrl = this.router.url;
     this.redirectService.setRedirectUrl(currentUrl);
     localStorage.removeItem(this.userKey);
@@ -105,19 +106,28 @@ export class AuthService {
     if (token) {
       const decoded: any = jwt_decode.jwtDecode(token);
       const expiryTime = decoded['exp'] * 1000 - Date.now();
-      console.log('exp: ', expiryTime);
 
       if (expiryTime > 0) {
-        const checkTime = expiryTime - 10000;
-        this.tokenCheckInterval = interval(checkTime).subscribe(() => {
+        setTimeout(() => {
           if (this.isTokenExpired()) {
             this.logoutWithRedirect();
-          } else {
-            this.snackBar.open('Your session will expire in 10 seconds.', 'Close', {
-              duration: 12000,
-            });
           }
-        });
+        }, expiryTime);
+
+        const countdownTime = expiryTime - 10000;
+        if (countdownTime > 0) {
+          setTimeout(() => {
+            if (!this.isTokenExpired()) {
+              this.snackBar.openFromComponent(CountdownSnackbarComponent, {
+                duration: 10000,
+                data: {
+                  message: 'Your session will expire in 10 seconds.',
+                  snackBar: this.snackBar,
+                },
+              });
+            }
+          }, countdownTime);
+        }
       } else {
         this.logoutWithRedirect();
       }
