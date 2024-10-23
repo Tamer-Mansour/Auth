@@ -8,20 +8,24 @@ export const roleGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const matSnackBar = inject(MatSnackBar);
   const router = inject(Router);
-  const useRoles = authService.getRoles();
-
-  if (!authService.isLoggedIn()) {
-    router.navigate(['/authentication/login']);
+  
+  if (!authService.isLoggedIn() || authService.isTokenExpired()) {
     matSnackBar.open('You must login to view this page.', 'Ok', {
       duration: 5000,
     });
+    authService.logout();
+    router.navigate(['/authentication/login']);
     return false;
   }
-  if (roles.some((role) => useRoles?.includes(role))) return true;
-  router.navigate(['/']);
+
+  const userRoles = authService.getRoles();
+  if (roles.some((role) => userRoles?.includes(role))) {
+    return true;
+  }
+
   matSnackBar.open("You don't have permission to view this page.", 'Ok', {
     duration: 5000,
   });
-
+  router.navigate(['/']);
   return false;
 };

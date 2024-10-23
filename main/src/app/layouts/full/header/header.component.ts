@@ -17,11 +17,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, CommonModule, NgScrollbarModule, MaterialModule, MatButtonModule],
+  imports: [
+    RouterModule,
+    CommonModule,
+    NgScrollbarModule,
+    MaterialModule,
+    MatButtonModule,
+  ],
   templateUrl: './header.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-
 export class HeaderComponent {
   @Input() showToggle = true;
   @Input() toggleChecked = false;
@@ -37,6 +42,8 @@ export class HeaderComponent {
   }
 
   logout = () => {
+    const currentUrl = this.router.url;
+    console.log('🚀 ~ HeaderComponent ~ currentUrl:', currentUrl);
     this.authService.logout();
     this.matSnackBar.open('Logout success', 'Close', {
       duration: 5000,

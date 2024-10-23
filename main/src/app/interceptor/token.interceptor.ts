@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { catchError, switchMap, throwError, of } from 'rxjs';
 import { Router } from '@angular/router';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
@@ -17,31 +17,34 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
     return next(cloned).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          authService
-            .refreshToken({
-              email: authService.getUserDetail()?.email,
-              token: authService.getToken() || '',
-              refreshToken: authService.getRefreshToken() || '',
-            })
-            .subscribe({
-              next: (response) => {
-                if (response.isSuccess) {
-                  localStorage.setItem('user', JSON.stringify(response));
-                  const cloned = req.clone({
-                    setHeaders: {
-                      Authorization: `Bearer ${response.token}`,
-                    },
-                  });
-                  location.reload();
-                }
-              },
-              error: () => {
+          return authService.refreshToken({
+            email: authService.getUserDetail()?.email,
+            token: authService.getToken() || '',
+            refreshToken: authService.getRefreshToken() || '',
+          }).pipe(
+            switchMap(response => {
+              if (response.isSuccess) {
+                localStorage.setItem('user', JSON.stringify(response));
+                const cloned = req.clone({
+                  setHeaders: {
+                    Authorization: `Bearer ${response.token}`,
+                  },
+                });
+                return next(cloned);
+              } else {
                 authService.logout();
                 router.navigate(['/authentication/login']);
-              },
-            });
+                return throwError(() => new Error('Token refresh failed'));
+              }
+            }),
+            catchError(() => {
+              authService.logout();
+              router.navigate(['/authentication/login']);
+              return throwError(() => new Error('Token refresh failed'));
+            })
+          );
         }
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }
