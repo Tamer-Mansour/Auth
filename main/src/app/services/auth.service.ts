@@ -14,7 +14,6 @@ import { ChangePasswordRequest } from '../interfaces/change-password-request';
   providedIn: 'root',
 })
 export class AuthService {
-  // apiUrl: string = environment.apiUrl;
   private apiUrl: string = 'https://localhost:44324/api/';
 
   private userKey = 'user';
@@ -27,7 +26,6 @@ export class AuthService {
         if (response.isSuccess) {
           localStorage.setItem(this.userKey, JSON.stringify(response));
         }
-        console.log("the response is: ",response);
         return response;
       })
     );
