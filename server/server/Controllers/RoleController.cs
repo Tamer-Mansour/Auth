@@ -152,4 +152,5 @@ public class RoleController : ControllerBase
         var error = result.Errors.FirstOrDefault();
         return BadRequest(error!.Description);
     }
+    
 }
