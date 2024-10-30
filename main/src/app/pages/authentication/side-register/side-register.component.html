@@ -75,7 +75,7 @@
               Select Role(s)
             </mat-label>
             <mat-form-field appearance="outline" class="w-100">
-              <mat-select formControlName="roles" multiple>
+              <mat-select formControlName="roles" placeholder="Roles" multiple>
                 <mat-option *ngFor="let role of roles$ | async" [value]="role.name">
                   {{ role.name }}
                 </mat-option>
