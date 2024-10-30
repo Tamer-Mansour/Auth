@@ -17,80 +17,102 @@
             </a>
           </div>
 
-          <div class="row m-t-24 custom-row">
-            <div class="col-6">
-              <button mat-stroked-button class="w-100">
-                <div class="d-flex align-items-center">
-                  <img
-                    src="/assets/images/svgs/google-icon.svg"
-                    alt="google"
-                    width="16"
-                    class="m-r-8"
-                  />
-                  <span class="d-none d-lg-block">Sign in with Google</span>
-                </div>
-              </button>
-            </div>
-            <div class="col-6">
-              <button
-                mat-stroked-button
-                class="w-100 d-flex align-items-center"
-              >
-                <div class="d-flex align-items-center">
-                  <img
-                    src="/assets/images/svgs/facebook-icon.svg"
-                    alt="facebook"
-                    width="40"
-                    class="m-r-4"
-                  />
-                  <span class="d-none d-lg-block">Sign in with FB</span>
-                </div>
-              </button>
-            </div>
+          <div *ngFor="let error of errors" class="bg-red-100 border mb-2">
+<!--            <div class="text-xs">{{ error.description }}</div>-->
           </div>
 
-          <div class="or-border m-t-30">or sign up with</div>
-
-          <form class="m-t-30">
-            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-              >Name</mat-label
-            >
+          <form [formGroup]="registerform" (ngSubmit)="register()" class="m-t-30">
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">
+              Name
+            </mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput />
-            </mat-form-field>
-            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-              >Email Adddress</mat-label
-            >
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="email" />
-            </mat-form-field>
-            <!-- password -->
-            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-              >Password</mat-label
-            >
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="password" />
+              <input matInput formControlName="fullName" placeholder="Full Name" />
+              <mat-icon matPrefix>person</mat-icon>
             </mat-form-field>
 
-            <a
-              [routerLink]="['/']"
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">
+              Email Address
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput type="email" formControlName="email" placeholder="Email" />
+              <mat-icon matPrefix>email</mat-icon>
+            </mat-form-field>
+
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">
+              Password
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input
+                matInput
+                [type]="hidePassword ? 'password' : 'text'"
+                formControlName="password"
+                placeholder="Password"
+              />
+              <mat-icon matPrefix>lock</mat-icon>
+              <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+                {{ hidePassword ? "visibility_off" : "visibility" }}
+              </mat-icon>
+            </mat-form-field>
+
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">
+              Confirm Password
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input
+                matInput
+                [type]="hideConfirmPassword ? 'password' : 'text'"
+                formControlName="confirmPassword"
+                placeholder="Confirm Password"
+              />
+              <mat-icon matPrefix>lock</mat-icon>
+              <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
+                {{ hideConfirmPassword ? "visibility_off" : "visibility" }}
+              </mat-icon>
+            </mat-form-field>
+
+            <!-- Roles Dropdown -->
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">
+              Select Role(s)
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select formControlName="roles" multiple>
+                <mat-option *ngFor="let role of roles$ | async" [value]="role.name">
+                  {{ role.name }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix>groups</mat-icon>
+            </mat-form-field>
+
+            <span
+              class="text-red-600"
+              *ngIf="
+                registerform.hasError('passwordMismatch') &&
+                registerform.get('confirmPassword')?.dirty &&
+                registerform.get('confirmPassword')?.touched
+              "
+            >
+              Passwords do not match
+            </span>
+
+            <button
+              type="submit"
+              [disabled]="!registerform.valid"
               mat-flat-button
               color="primary"
               class="w-100"
             >
               Sign Up
-            </a>
-            <!-- input -->
+            </button>
           </form>
-          <span class="d-block f-w-500 text-center m-t-24"
-            >Already have an Account?
 
+          <span class="d-block f-w-500 text-center m-t-24">
+            Already have an Account?
             <a
               [routerLink]="['/authentication/login']"
               class="text-decoration-none text-primary f-w-500 f-s-14"
             >
-              Sign In</a
-            >
+              Sign In
+            </a>
           </span>
         </mat-card-content>
       </mat-card>
