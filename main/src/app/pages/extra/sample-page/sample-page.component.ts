@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MaterialModule} from '../../../material.module';
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 import {DomSanitizer} from "@angular/platform-browser";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
 
 declare var webkitSpeechRecognition: any;
 
@@ -33,6 +34,11 @@ interface HeaderChild {
 })
 
 export class AppSamplePageComponent implements OnInit {
+  constructor(private sanitizer: DomSanitizer) {}
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  paginatedData = new MatTableDataSource<any>();
+
   headers = [
     {
       name: ' بحث الكل',
@@ -95,49 +101,112 @@ export class AppSamplePageComponent implements OnInit {
 
   tabData: TabData = {
     'رقم الدعوى': [
-      { id: 1, caseNumber: '123', plaintiffName: 'أحمد', nationalId: '1001' },
-      { id: 2, caseNumber: '456', plaintiffName: 'محمد', nationalId: '1002' },
-      { id: 3, caseNumber: '789', plaintiffName: 'خالد', nationalId: '1003' },
+      { id: 28, caseNumber: '942', plaintiffName: 'أحمد', nationalId: '3136' },
+      { id: 29, caseNumber: '110', plaintiffName: 'زياد', nationalId: '7435' },
+      { id: 30, caseNumber: '836', plaintiffName: 'عمر', nationalId: '6818' },
+      { id: 31, caseNumber: '680', plaintiffName: 'علي', nationalId: '5799' },
+      { id: 32, caseNumber: '971', plaintiffName: 'باسم', nationalId: '8867' },
+      { id: 33, caseNumber: '998', plaintiffName: 'محمد', nationalId: '6995' },
+      { id: 34, caseNumber: '954', plaintiffName: 'محمد', nationalId: '7301' },
+      { id: 35, caseNumber: '940', plaintiffName: 'سامي', nationalId: '1846' },
+      { id: 36, caseNumber: '526', plaintiffName: 'خالد', nationalId: '2494' },
+      { id: 37, caseNumber: '733', plaintiffName: 'علي', nationalId: '1529' },
     ],
     'اسم المدعي': [
-      { id: 4, caseNumber: '321', plaintiffName: 'سامي', nationalId: '2001' },
-      { id: 5, caseNumber: '654', plaintiffName: 'علي', nationalId: '2002' },
-      { id: 6, caseNumber: '987', plaintiffName: 'عمر', nationalId: '2003' },
+      { id: 38, caseNumber: '818', plaintiffName: 'علي', nationalId: '7353' },
+      { id: 39, caseNumber: '108', plaintiffName: 'طارق', nationalId: '3093' },
+      { id: 40, caseNumber: '347', plaintiffName: 'محمد', nationalId: '5453' },
+      { id: 41, caseNumber: '705', plaintiffName: 'يوسف', nationalId: '2174' },
+      { id: 42, caseNumber: '209', plaintiffName: 'عمر', nationalId: '3857' },
+      { id: 43, caseNumber: '485', plaintiffName: 'محمد', nationalId: '6600' },
+      { id: 44, caseNumber: '973', plaintiffName: 'علي', nationalId: '8415' },
+      { id: 45, caseNumber: '609', plaintiffName: 'باسم', nationalId: '8409' },
+      { id: 46, caseNumber: '561', plaintiffName: 'عمر', nationalId: '5736' },
+      { id: 47, caseNumber: '795', plaintiffName: 'أحمد', nationalId: '4048' }
     ],
     'رقم الهوية': [
-      { id: 7, caseNumber: '213', plaintiffName: 'يوسف', nationalId: '3001' },
-      { id: 8, caseNumber: '546', plaintiffName: 'زياد', nationalId: '3002' },
-      { id: 9, caseNumber: '879', plaintiffName: 'حسن', nationalId: '3003' },
+      { id: 48, caseNumber: '653', plaintiffName: 'حسن', nationalId: '1438' },
+      { id: 49, caseNumber: '766', plaintiffName: 'زياد', nationalId: '4940' },
+      { id: 50, caseNumber: '574', plaintiffName: 'أحمد', nationalId: '6355' },
+      { id: 51, caseNumber: '145', plaintiffName: 'سامي', nationalId: '4740' },
+      { id: 52, caseNumber: '397', plaintiffName: 'علي', nationalId: '9774' },
+      { id: 53, caseNumber: '882', plaintiffName: 'حسن', nationalId: '3064' },
+      { id: 54, caseNumber: '802', plaintiffName: 'علي', nationalId: '9616' },
+      { id: 55, caseNumber: '591', plaintiffName: 'باسم', nationalId: '9948' },
+      { id: 56, caseNumber: '656', plaintiffName: 'خالد', nationalId: '7411' },
+      { id: 57, caseNumber: '788', plaintiffName: 'خالد', nationalId: '1112' }
     ],
     'تاريخ البدء': [
-      { id: 10, startDate: '2023-01-01', caseName: 'قضية 1', status: 'مفتوح' },
-      { id: 11, startDate: '2023-02-01', caseName: 'قضية 2', status: 'مغلق' },
-      { id: 12, startDate: '2023-03-01', caseName: 'قضية 3', status: 'معلق' },
+      { id: 58, startDate: '2023-03-22', caseName: 'قضية 8', status: 'معلق' },
+      { id: 59, startDate: '2023-01-07', caseName: 'قضية 5', status: 'معلق' },
+      { id: 60, startDate: '2023-01-20', caseName: 'قضية 1', status: 'مفتوح' },
+      { id: 61, startDate: '2023-03-29', caseName: 'قضية 6', status: 'معلق' },
+      { id: 62, startDate: '2023-03-01', caseName: 'قضية 5', status: 'مفتوح' },
+      { id: 63, startDate: '2023-01-13', caseName: 'قضية 1', status: 'مفتوح' },
+      { id: 64, startDate: '2023-01-13', caseName: 'قضية 7', status: 'مغلق' },
+      { id: 65, startDate: '2023-02-11', caseName: 'قضية 3', status: 'مفتوح' },
+      { id: 66, startDate: '2023-04-07', caseName: 'قضية 5', status: 'مغلق' },
+      { id: 67, startDate: '2023-03-24', caseName: 'قضية 6', status: 'مغلق' }
     ],
     'تاريخ الانتهاء': [
-      { id: 13, endDate: '2023-01-10', caseName: 'قضية 4', status: 'مغلق' },
-      { id: 14, endDate: '2023-02-10', caseName: 'قضية 5', status: 'معلق' },
-      { id: 15, endDate: '2023-03-10', caseName: 'قضية 6', status: 'مفتوح' },
+      { id: 68, endDate: '2023-03-13', caseName: 'قضية 4', status: 'معلق' },
+      { id: 69, endDate: '2023-04-04', caseName: 'قضية 8', status: 'مفتوح' },
+      { id: 70, endDate: '2023-01-06', caseName: 'قضية 8', status: 'معلق' },
+      { id: 71, endDate: '2023-03-13', caseName: 'قضية 7', status: 'معلق' },
+      { id: 72, endDate: '2023-03-17', caseName: 'قضية 4', status: 'مفتوح' },
+      { id: 73, endDate: '2023-01-15', caseName: 'قضية 1', status: 'معلق' },
+      { id: 74, endDate: '2023-01-28', caseName: 'قضية 6', status: 'معلق' },
+      { id: 75, endDate: '2023-02-15', caseName: 'قضية 1', status: 'مغلق' },
+      { id: 76, endDate: '2023-03-13', caseName: 'قضية 5', status: 'مفتوح' },
+      { id: 77, endDate: '2023-01-04', caseName: 'قضية 5', status: 'معلق' }
     ],
     'تاريخ التسجيل': [
-      { id: 16, registrationDate: '2022-12-01', caseName: 'قضية 7', status: 'مفتوح' },
-      { id: 17, registrationDate: '2023-01-15', caseName: 'قضية 8', status: 'مغلق' },
-      { id: 18, registrationDate: '2023-02-20', caseName: 'قضية 9', status: 'معلق' },
+      { id: 78, registrationDate: '2023-03-24', caseName: 'قضية 8', status: 'معلق' },
+      { id: 79, registrationDate: '2023-01-24', caseName: 'قضية 9', status: 'معلق' },
+      { id: 80, registrationDate: '2023-03-23', caseName: 'قضية 2', status: 'مغلق' },
+      { id: 81, registrationDate: '2023-03-19', caseName: 'قضية 4', status: 'معلق' },
+      { id: 82, registrationDate: '2023-03-19', caseName: 'قضية 4', status: 'مغلق' },
+      { id: 83, registrationDate: '2023-01-10', caseName: 'قضية 10', status: 'معلق' },
+      { id: 84, registrationDate: '2023-01-17', caseName: 'قضية 8', status: 'مفتوح' },
+      { id: 85, registrationDate: '2023-02-10', caseName: 'قضية 6', status: 'مغلق' },
+      { id: 86, registrationDate: '2023-03-12', caseName: 'قضية 7', status: 'معلق' },
+      { id: 87, registrationDate: '2023-02-15', caseName: 'قضية 9', status: 'مغلق' }
     ],
     'اسم المدعى عليه': [
-      { id: 19, defendantName: 'خالد', caseNumber: '147', lawyerName: 'عمرو' },
-      { id: 20, defendantName: 'مازن', caseNumber: '258', lawyerName: 'زيد' },
-      { id: 21, defendantName: 'فيصل', caseNumber: '369', lawyerName: 'حسن' },
+      { id: 88, defendantName: 'عمرو', caseNumber: '729', lawyerName: 'باسم' },
+      { id: 89, defendantName: 'مروان', caseNumber: '654', lawyerName: 'محمود' },
+      { id: 90, defendantName: 'علي', caseNumber: '740', lawyerName: 'سعيد' },
+      { id: 91, defendantName: 'عادل', caseNumber: '974', lawyerName: 'عادل' },
+      { id: 92, defendantName: 'علي', caseNumber: '270', lawyerName: 'أحمد' },
+      { id: 93, defendantName: 'مروان', caseNumber: '565', lawyerName: 'فادي' },
+      { id: 94, defendantName: 'خالد', caseNumber: '229', lawyerName: 'باسم' },
+      { id: 95, defendantName: 'علي', caseNumber: '584', lawyerName: 'محمود' },
+      { id: 96, defendantName: 'مازن', caseNumber: '546', lawyerName: 'عادل' },
+      { id: 97, defendantName: 'عمر', caseNumber: '991', lawyerName: 'أحمد' }
     ],
     'اسم الشاهد': [
-      { id: 22, witnessName: 'ياسر', caseNumber: '123', defendantName: 'سامي' },
-      { id: 23, witnessName: 'طارق', caseNumber: '456', defendantName: 'علي' },
-      { id: 24, witnessName: 'باسم', caseNumber: '789', defendantName: 'عمر' },
+      { id: 98, witnessName: 'طارق', caseNumber: '652', defendantName: 'زيد' },
+      { id: 99, witnessName: 'خالد', caseNumber: '424', defendantName: 'فادي' },
+      { id: 100, witnessName: 'باسم', caseNumber: '334', defendantName: 'فيصل' },
+      { id: 101, witnessName: 'طارق', caseNumber: '705', defendantName: 'سامي' },
+      { id: 102, witnessName: 'حسن', caseNumber: '384', defendantName: 'مروان' },
+      { id: 103, witnessName: 'علي', caseNumber: '226', defendantName: 'فادي' },
+      { id: 104, witnessName: 'علي', caseNumber: '131', defendantName: 'فيصل' },
+      { id: 105, witnessName: 'زياد', caseNumber: '969', defendantName: 'مروان' },
+      { id: 106, witnessName: 'خالد', caseNumber: '768', defendantName: 'عمر' },
+      { id: 107, witnessName: 'علي', caseNumber: '203', defendantName: 'فادي' }
     ],
     'اسم المحامي': [
-      { id: 25, lawyerName: 'أحمد', caseNumber: '741', clientName: 'فادي' },
-      { id: 26, lawyerName: 'علي', caseNumber: '852', clientName: 'عادل' },
-      { id: 27, lawyerName: 'سعيد', caseNumber: '963', clientName: 'مروان' },
+      { id: 108, lawyerName: 'باسم', caseNumber: '736', clientName: 'محمد' },
+      { id: 109, lawyerName: 'علي', caseNumber: '736', clientName: 'طارق' },
+      { id: 110, lawyerName: 'عمرو', caseNumber: '638', clientName: 'عمر' },
+      { id: 111, lawyerName: 'باسم', caseNumber: '785', clientName: 'باسم' },
+      { id: 112, lawyerName: 'زيد', caseNumber: '700', clientName: 'طارق' },
+      { id: 113, lawyerName: 'علي', caseNumber: '301', clientName: 'خالد' },
+      { id: 114, lawyerName: 'أحمد', caseNumber: '533', clientName: 'زياد' },
+      { id: 115, lawyerName: 'مروان', caseNumber: '665', clientName: 'علي' },
+      { id: 116, lawyerName: 'حسن', caseNumber: '180', clientName: 'باسم' },
+      { id: 117, lawyerName: 'عمرو', caseNumber: '829', clientName: 'عمر' }
     ]
   };
 
@@ -149,6 +218,8 @@ export class AppSamplePageComponent implements OnInit {
     this.selectedChild = this.selectedHeader.children[0];
     this.activeTabIndex = 0;
     this.updateFilteredData();
+    // this.startRecognition();
+    this.paginatedData.data = this.filteredData;
   }
 
   setupSpeechRecognition() {
@@ -284,10 +355,10 @@ export class AppSamplePageComponent implements OnInit {
 
     // Step 6: Filter data based on remaining query text
     this.filteredData = this.filterDataBasedOnQuery(query);
-    console.log("Search Query:", query);
-    console.log("Selected Header:", this.selectedHeader ? this.selectedHeader.name : "None");
-    console.log("Selected Child:", this.selectedChild ? this.selectedChild.name : "None");
-    console.log("Filtered Data:", this.filteredData);
+    // console.log("Search Query:", query);
+    // console.log("Selected Header:", this.selectedHeader ? this.selectedHeader.name : "None");
+    // console.log("Selected Child:", this.selectedChild ? this.selectedChild.name : "None");
+    // console.log("Filtered Data:", this.filteredData);
   }
 
   setSelectedHeaderChild(header: any, child: HeaderChild, tabIndex: number) {
@@ -330,8 +401,6 @@ export class AppSamplePageComponent implements OnInit {
     });
   }
 
-  constructor(private sanitizer: DomSanitizer) {}
-
   updateHighlightedText(query: string) {
     const headerName = this.selectedHeader ? this.selectedHeader.name : '';
     const childName = this.selectedChild ? this.selectedChild.name : '';
@@ -350,9 +419,9 @@ export class AppSamplePageComponent implements OnInit {
   onSearch(event: any) {
     const query = event.target.value;
     this.processSearchQuery(query);
+    this.paginatedData.data = this.filteredData;
     this.updateHighlightedText(query);
   }
-
 
   onHeaderSelected(header: any) {
     this.selectedHeader = header;
@@ -362,16 +431,16 @@ export class AppSamplePageComponent implements OnInit {
 
   onTabChange(index: number) {
     if (this.selectedHeader && this.selectedHeader.children) {
-      const selectedChild = this.selectedHeader.children[index];
-      this.selectedChild = selectedChild;
+      this.selectedChild = this.selectedHeader.children[index];
       this.updateFilteredData();
     }
   }
 
   updateFilteredData() {
-    // Reset the filtered data to the full dataset of the selected child tab
     if (this.selectedChild) {
       this.filteredData = this.tabData[this.selectedChild.name] || [];
+      this.paginatedData.data = this.filteredData;
+      this.paginatedData.paginator = this.paginator; // Link paginator with data source
     }
   }
 }
