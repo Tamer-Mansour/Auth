@@ -1,8 +1,8 @@
-import { Routes } from '@angular/router';
-import { BlankComponent } from './layouts/blank/blank.component';
-import { FullComponent } from './layouts/full/full.component';
-import { roleGuard } from './guards/role.guard';
-import { authGuard } from './guards/auth.guard';
+import {Routes} from '@angular/router';
+import {BlankComponent} from './layouts/blank/blank.component';
+import {FullComponent} from './layouts/full/full.component';
+import {roleGuard} from './guards/role.guard';
+import {authGuard} from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -27,13 +27,12 @@ export const routes: Routes = [
           import('./pages/ui-components/ui-components.routes').then(
             (m) => m.UiComponentsRoutes
           ),
-          canActivate: [authGuard]
+        canActivate: [authGuard]
       },
       {
         path: 'extra',
         loadChildren: () =>
           import('./pages/extra/extra.routes').then((m) => m.ExtraRoutes),
-        canActivate: [authGuard]
       },
     ],
   },

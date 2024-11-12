@@ -1,18 +1,18 @@
-import { inject, Injectable } from '@angular/core';
-import { interval, Observable, Subscription } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import {inject, Injectable, NgZone, OnInit} from '@angular/core';
+import {interval, Observable, Subscription, fromEvent, merge, timer, take, tap} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
-import { LoginRequest } from '../interfaces/login-request';
-import { AuthResponse } from '../interfaces/auth-response';
-import { RegisterRequest } from '../interfaces/register-request';
-import { UserDetail } from '../interfaces/user-detail';
-import { ResetPasswordRequest } from '../interfaces/reset-password-request';
-import { ChangePasswordRequest } from '../interfaces/change-password-request';
-import { RedirectService } from './redirect.service';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { CountdownSnackbarComponent } from '../components/countdown-snackbar/countdown-snackbar.component';
+import {LoginRequest} from '../interfaces/login-request';
+import {AuthResponse} from '../interfaces/auth-response';
+import {RegisterRequest} from '../interfaces/register-request';
+import {UserDetail} from '../interfaces/user-detail';
+import {ResetPasswordRequest} from '../interfaces/reset-password-request';
+import {ChangePasswordRequest} from '../interfaces/change-password-request';
+import {RedirectService} from './redirect.service';
+import {Router} from '@angular/router';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {CountdownSnackbarComponent} from '../components/countdown-snackbar/countdown-snackbar.component';
+import {map, switchMap, takeUntil} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -21,11 +21,107 @@ export class AuthService {
   private apiUrl: string = 'https://localhost:44324/api/';
   private tokenCheckInterval: Subscription | null = null;
   private userKey = 'user';
+
+  private readonly inactivityTime = 80000; // 30 seconds
+  private readonly logoutCountdown = 10000; // 10 seconds
+  private countdownInProgress: Subscription | null = null;
+  private inactivitySubscription: Subscription | null = null;
+  private snackBarRef: MatSnackBarRef<CountdownSnackbarComponent> | null = null;
+
   redirectService = inject(RedirectService);
   router = inject(Router);
   snackBar = inject(MatSnackBar);
+  ngZone = inject(NgZone);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // if (this.isLoggedIn()) {
+    //   this.startInactivityTimer();
+    // }
+  }
+
+  // ngOnInit() {
+  //   if (this.isLoggedIn()) {
+  //     this.startInactivityTimer();
+  //   }
+  // }
+
+  // startInactivityTimer() {
+  //   if (this.inactivitySubscription) {
+  //     this.inactivitySubscription.unsubscribe();
+  //   }
+  //
+  //   // Run within Angular zone to ensure UI updates happen
+  //   this.ngZone.run(() => {
+  //     const activityEvents$ = merge(
+  //       fromEvent(document, 'mousemove'),
+  //       fromEvent(document, 'click'),
+  //       fromEvent(document, 'keypress')
+  //     );
+  //
+  //     this.inactivitySubscription = activityEvents$
+  //       .pipe(
+  //         switchMap(() => {
+  //           // Reset the countdown and snackbar on user activity
+  //           if (this.countdownInProgress) {
+  //             this.countdownInProgress.unsubscribe();
+  //             this.countdownInProgress = null;
+  //           }
+  //           if (this.snackBarRef) {
+  //             this.snackBarRef.dismiss();
+  //             this.snackBarRef = null;
+  //           }
+  //           return timer(this.inactivityTime);
+  //         })
+  //       )
+  //       .subscribe(() => {
+  //         this.showInactivityWarning();
+  //       });
+  //   });
+  // }
+
+  // showInactivityWarning() {
+  //   if (!this.isLoggedIn()) return;
+  //
+  //   if (this.countdownInProgress) return; // Prevent restarting countdown if already in progress
+  //
+  //   // Open snackbar within the Angular zone
+  //   this.ngZone.run(() => {
+  //     this.snackBarRef = this.snackBar.openFromComponent(CountdownSnackbarComponent, {
+  //       duration: this.logoutCountdown,
+  //       data: {
+  //         message: 'You will be logged out in 10 seconds due to inactivity.',
+  //       },
+  //     });
+  //   });
+  //
+  //   this.countdownInProgress = interval(1000)
+  //     .pipe(
+  //       take(this.logoutCountdown / 1000), // Run for 10 seconds
+  //       tap((count) => console.log(`Logging out in ${10 - count} seconds`))
+  //     )
+  //     .subscribe({
+  //       complete: () => {
+  //         this.logoutWithRedirect();
+  //       }
+  //     });
+  //
+  //   // Listen for user activity and reset the countdown if activity is detected
+  //   merge(fromEvent(document, 'mousemove'), fromEvent(document, 'click'), fromEvent(document, 'keypress')).subscribe(() => {
+  //     if (this.countdownInProgress) {
+  //       this.countdownInProgress.unsubscribe();
+  //       this.countdownInProgress = null;
+  //     }
+  //
+  //     // Dismiss the snackbar and reset it
+  //     if (this.snackBarRef) {
+  //       this.snackBarRef.dismiss();
+  //       this.snackBarRef = null;
+  //     }
+  //
+  //     // Start the inactivity timer again after resetting
+  //     this.startInactivityTimer();
+  //   });
+  // }
 
   login(data: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}User/login`, data).pipe(
@@ -33,8 +129,8 @@ export class AuthService {
         if (response.isSuccess) {
           localStorage.setItem(this.userKey, JSON.stringify(response));
           this.startTokenCheck();
+          // this.startInactivityTimer();
           const redirectUrl = this.redirectService.getRedirectUrl();
-          console.log('🚀 ~ AuthService ~ redirectUrl:', redirectUrl);
           if (redirectUrl) {
             this.router.navigate([redirectUrl]);
           } else {
@@ -83,7 +179,7 @@ export class AuthService {
       this.tokenCheckInterval = null;
     }
     this.router.navigate(['/authentication/login'], {
-      queryParams: { redirect: currentUrl },
+      queryParams: {redirect: currentUrl},
     });
   };
 

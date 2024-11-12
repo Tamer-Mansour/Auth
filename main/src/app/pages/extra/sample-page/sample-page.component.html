@@ -1,10 +1,85 @@
 <!-- ============================================================== -->
-<!-- Simple four boxes Row -->
+<!-- Sample Page with Dropdown, Tabs, and Mic Icon Toggle -->
 <!-- ============================================================== -->
 <mat-card class="cardWithShadow">
-    <mat-card-content>
-      <mat-card-title>Sample Page</mat-card-title>
-      <mat-card-subtitle class="mat-body-1">This is test page</mat-card-subtitle>
-    </mat-card-content>
-  </mat-card>
-  
+  <mat-card-content>
+    <mat-card-title class="title">Voice Search & Selection</mat-card-title>
+
+    <!-- Language Selector Dropdown -->
+    <div class="language-selector">
+      <mat-form-field appearance="outline" class="language-field">
+        <mat-select [(value)]="selectedLanguage" (selectionChange)="onLanguageChange($event.value)">
+          <mat-option *ngFor="let lang of languages" [value]="lang.code">
+            {{ lang.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Combined Search Bar with Dropdown, Search Icon, and Microphone -->
+    <div class="search-container" [ngClass]="{'rtl': isRtl}">
+      <div class="highlighted-background" [innerHTML]="highlightedText"></div>
+      <!-- Header Dropdown -->
+      <mat-form-field appearance="outline" class="dropdown-field">
+        <mat-select
+          [(value)]="selectedHeader"
+          (selectionChange)="onHeaderSelected($event.value)"
+          placeholder="Search by Header"
+        >
+          <mat-option *ngFor="let header of headers" [value]="header">
+            {{ header.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Search Input -->
+      <mat-form-field appearance="outline" class="search-field">
+        <input
+          matInput
+          [(ngModel)]="spokenText"
+          (input)="onSearch($event)"
+          placeholder="Type or speek to search..."
+          class="input-overlay"
+        />
+      </mat-form-field>
+
+      <!-- Microphone Icon on the Right -->
+      <button
+        mat-icon-button
+        (click)="toggleRecording()"
+        aria-label="Toggle voice input"
+        class="mic-icon"
+      >
+        <mat-icon>{{ isRecording ? 'mic' : 'mic_off' }}</mat-icon>
+      </button>
+    </div>
+
+    <!-- Tabs for Children with Data Table in Each Tab -->
+    <mat-tab-group *ngIf="selectedHeader" class="tab-group" [selectedIndex]="activeTabIndex" (selectedTabChange)="onTabChange($event.index)">
+      <mat-tab *ngFor="let child of selectedHeader.children" [label]="child.name">
+        <div class="tab-content">
+          <!-- Data Table -->
+          <table mat-table [dataSource]="filteredData" class="mat-elevation-z8 full-width-field">
+
+            <!-- Dynamic Columns Based on Data Type in TabData -->
+            <ng-container *ngFor="let column of getDisplayedColumns()" [matColumnDef]="column">
+              <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+              <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+            </ng-container>
+
+            <!-- Row Definitions -->
+            <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+            <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
+          </table>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+    <!-- Live Caption for Speech -->
+    <div *ngIf="isRecording" class="live-caption">
+      <mat-icon>subtitles</mat-icon>
+      <span>{{ spokenText }}</span>
+    </div>
+
+  </mat-card-content>
+</mat-card>
